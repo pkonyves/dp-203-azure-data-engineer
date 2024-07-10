@@ -80,7 +80,7 @@
         "name": "[parameters('dataLakeAccountName')]",
         "location": "[variables('location')]",
         "dependsOn": [],
-        "tags": {},
+        "tags": {"cost-center": "dev"},
         "sku": {
           "name": "Standard_LRS"
         },
@@ -96,6 +96,7 @@
             "type": "blobServices/containers",
             "apiVersion": "2018-07-01",
             "name": "[concat('default/', variables('defaultDataLakeStorageFilesystemName'))]",
+            "tags": {"cost-center": "dev"},
             "dependsOn": [
               "[concat('Microsoft.Storage/storageAccounts/', parameters('dataLakeAccountName'))]"
             ]
@@ -106,6 +107,7 @@
         "type": "Microsoft.Storage/storageAccounts/blobServices",
         "apiVersion": "2019-06-01",
         "name": "[concat(parameters('dataLakeAccountName'), '/default')]",
+        "tags": {"cost-center": "dev"},
         "dependsOn": [
           "[resourceId('Microsoft.Storage/storageAccounts', parameters('dataLakeAccountName'))]"
         ],
@@ -126,6 +128,7 @@
         "type": "Microsoft.Storage/storageAccounts/fileServices",
         "apiVersion": "2019-06-01",
         "name": "[concat(parameters('dataLakeAccountName'), '/default')]",
+        "tags": {"cost-center": "dev"},
         "dependsOn": [
           "[resourceId('Microsoft.Storage/storageAccounts', parameters('dataLakeAccountName'))]"
         ],
@@ -143,6 +146,7 @@
         "type": "Microsoft.Synapse/workspaces",
         "apiVersion": "2019-06-01-preview",
         "name": "[parameters('workspaceName')]",
+        "tags": {"cost-center": "dev"},
         "location": "[variables('location')]",
         "dependsOn": [
           "[concat('Microsoft.Storage/storageAccounts/', parameters('dataLakeAccountName'), '/blobServices/default/containers/', variables('defaultDataLakeStorageFilesystemName'))]"
@@ -166,6 +170,7 @@
             "type": "firewallrules",
             "apiVersion": "2019-06-01-preview",
             "name": "allowAll",
+            "tags": {"cost-center": "dev"},
             "location": "[variables('location')]",
             "dependsOn": [
               "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
@@ -180,6 +185,7 @@
       {
         "type": "Microsoft.Storage/storageAccounts/blobServices/containers/providers/roleAssignments",
         "apiVersion": "2018-09-01-preview",
+        "tags": {"cost-center": "dev"},
         "name": "[concat(parameters('dataLakeAccountName'), '/default/', variables('defaultDataLakeStorageFilesystemName'), '/Microsoft.Authorization/',  guid(concat(resourceGroup().id, '/', variables('storageBlobDataOwnerRoleID'), '/', parameters('workspaceName'))))]",
         "location": "[variables('location')]",
         "dependsOn": [
@@ -194,6 +200,7 @@
       {
         "type": "Microsoft.Authorization/roleAssignments",
         "apiVersion": "2018-09-01-preview",
+        "tags": {"cost-center": "dev"},
         "name": "[guid(concat(resourceGroup().id, '/', variables('storageBlobDataOwnerRoleID'), '/', parameters('workspaceName'), '2'))]",
         "location": "[variables('location')]",
         "dependsOn": [
@@ -208,6 +215,7 @@
       {
           "type": "Microsoft.Synapse/workspaces/sqlPools",
           "apiVersion": "2019-06-01-preview",
+          "tags": {"cost-center": "dev"},
           "name": "[concat(parameters('workspaceName'), '/', parameters('sqlDatabaseName'))]",
           "location": "[variables('location')]",
           "sku": {
@@ -224,6 +232,7 @@
       {
         "type": "Microsoft.Synapse/workspaces/bigDataPools",
         "apiVersion": "2019-06-01-preview",
+        "tags": {"cost-center": "dev"},
         "name": "[concat(parameters('workspaceName'), '/', parameters('sparkPoolName'))]",
         "location": "[variables('location')]",
         "dependsOn": [
