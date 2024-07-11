@@ -44,6 +44,7 @@
       {
         "type": "Microsoft.Resources/tags",
         "name": "default",
+        "tags": {"cost-center": "dev"},
         "apiVersion": "2019-10-01",
         "dependsOn": [],
         "properties": {
@@ -54,11 +55,11 @@
     },
       {
         "type": "Microsoft.Storage/storageAccounts",
+        "tags": {"cost-center": "dev"},
         "apiVersion": "2019-06-01",
         "name": "[parameters('dataLakeAccountName')]",
         "location": "[variables('location')]",
         "dependsOn": [],
-        "tags": {},
         "sku": {
           "name": "Standard_LRS"
         },
@@ -72,6 +73,7 @@
         "resources": [
           {
             "type": "blobServices/containers",
+            "tags": {"cost-center": "dev"},
             "apiVersion": "2018-07-01",
             "name": "[concat('default/', variables('defaultDataLakeStorageFilesystemName'))]",
             "dependsOn": [
@@ -82,6 +84,7 @@
       },
       {
         "type": "Microsoft.Storage/storageAccounts/blobServices",
+        "tags": {"cost-center": "dev"},
         "apiVersion": "2019-06-01",
         "name": "[concat(parameters('dataLakeAccountName'), '/default')]",
         "dependsOn": [
@@ -102,6 +105,7 @@
       },
       {
         "type": "Microsoft.Storage/storageAccounts/fileServices",
+        "tags": {"cost-center": "dev"},
         "apiVersion": "2019-06-01",
         "name": "[concat(parameters('dataLakeAccountName'), '/default')]",
         "dependsOn": [
@@ -119,6 +123,7 @@
       },
       {
         "type": "Microsoft.Synapse/workspaces",
+        "tags": {"cost-center": "dev"},
         "apiVersion": "2019-06-01-preview",
         "name": "[parameters('workspaceName')]",
         "location": "[variables('location')]",
@@ -142,6 +147,7 @@
         "resources": [
           {
             "type": "firewallrules",
+            "tags": {"cost-center": "dev"},
             "apiVersion": "2019-06-01-preview",
             "name": "allowAll",
             "location": "[variables('location')]",
@@ -157,6 +163,7 @@
       },
       {
         "type": "Microsoft.Storage/storageAccounts/blobServices/containers/providers/roleAssignments",
+        "tags": {"cost-center": "dev"},
         "apiVersion": "2018-09-01-preview",
         "name": "[concat(parameters('dataLakeAccountName'), '/default/', variables('defaultDataLakeStorageFilesystemName'), '/Microsoft.Authorization/',  guid(concat(resourceGroup().id, '/', variables('storageBlobDataOwnerRoleID'), '/', parameters('workspaceName'))))]",
         "location": "[variables('location')]",
@@ -171,6 +178,7 @@
       },
       {
         "type": "Microsoft.Authorization/roleAssignments",
+        "tags": {"cost-center": "dev"},
         "apiVersion": "2018-09-01-preview",
         "name": "[guid(concat(resourceGroup().id, '/', variables('storageBlobDataOwnerRoleID'), '/', parameters('workspaceName'), '2'))]",
         "location": "[variables('location')]",
