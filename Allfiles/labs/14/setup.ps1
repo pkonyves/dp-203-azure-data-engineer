@@ -77,7 +77,8 @@ foreach ($provider in $provider_list){
 }
 
 # Generate unique random suffix
-[string]$suffix =  -join ((48..57) + (97..122) | Get-Random -Count 7 | % {[char]$_})
+#[string]$suffix =  -join ((48..57) + (97..122) | Get-Random -Count 7 | % {[char]$_})
+[string]$suffix = "paldev"
 Write-Host "Your randomly-generated suffix for Azure resources is $suffix"
 $resourceGroupName = "dp203-$suffix"
 
@@ -85,7 +86,8 @@ $resourceGroupName = "dp203-$suffix"
 Write-Host "Finding an available region. This may take several minutes...";
 $delay = 0, 30, 60, 90, 120 | Get-Random
 Start-Sleep -Seconds $delay # random delay to stagger requests from multi-student classes
-$preferred_list = "eastus","southcentralus","westus3","australiaeast","northeurope","eastasia","uksouth","japaneast","canadacentral","francecentral","norwayeast"
+#$preferred_list = "eastus","southcentralus","westus3","australiaeast","northeurope","eastasia","uksouth","japaneast","canadacentral","francecentral","norwayeast"
+$preferred_list = "northeurope", "westeurope"
 $locations = Get-AzLocation | Where-Object {
     $_.Providers -contains "Microsoft.Synapse" -and
     $_.Providers -contains "Microsoft.Sql" -and
@@ -169,7 +171,7 @@ while ($stop -ne 1){
         write-host "Trying $Region..."
         $attempt = $attempt + 1
         $cosmosDB = "cosmos$suffix$attempt"
-        New-AzCosmosDBAccount -ResourceGroupName $resourceGroupName -Name $cosmosDB -Location $Region -ErrorAction Stop | Out-Null
+        New-AzCosmosDBAccount -ResourceGroupName $resourceGroupName -Name $cosmosDB -Location $Region -Tag @{'cost-center' = 'dev'} -ErrorAction Stop | Out-Null
         $stop = 1
     }
     catch {
