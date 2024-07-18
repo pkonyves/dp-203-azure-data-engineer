@@ -11,19 +11,20 @@ async function main() {
 
   var i;
 
-  for (i = 0; i < 100; i++)
+  for (i = 0; i < 1000; i++)
   {
 
     // Generate a random order
     var p = Math.floor(Math.random() * 10) + 1;
     var q = Math.floor(Math.random() * 3) + 1;
+    var eventTime = new Date().toISOString();
     var batch = await producer.createBatch();
-    batch.tryAdd({ body: {ProductID:p, Quantity:q} });   
+    batch.tryAdd({ body: {ProductID:p, Quantity:q, EventTime: eventTime} });   
 
     // Send the batch to the event hub.
     await producer.sendBatch(batch);
 
-    console.log("{ProductID:" + p + ", Quantity:" + q + "}");
+    console.log("{ProductID:" + p + ", Quantity:" + q + ", EventTime: " + eventTime +" }");
   }
   // Close the producer client.
     await producer.close();
