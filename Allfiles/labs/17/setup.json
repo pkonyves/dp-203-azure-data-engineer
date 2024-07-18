@@ -49,7 +49,7 @@
       "name": "[parameters('storageAccountName')]",
       "location": "[variables('location')]",
       "dependsOn": [],
-      "tags": {},
+      "tags": {"cost-center": "dev"},
       "sku": {
         "name": "Standard_LRS"
       },
@@ -63,6 +63,7 @@
       "resources": [
         {
           "type": "blobServices/containers",
+          "tags": {"cost-center": "dev"},
           "apiVersion": "2018-07-01",
           "name": "[concat('default/', variables('containerName'))]",
           "dependsOn": [
@@ -73,6 +74,7 @@
     },
     {
       "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "tags": {"cost-center": "dev"},
       "apiVersion": "2019-06-01",
       "name": "[concat(parameters('storageAccountName'), '/default')]",
       "dependsOn": [
@@ -93,6 +95,7 @@
     },
     {
       "type": "Microsoft.Storage/storageAccounts/fileServices",
+      "tags": {"cost-center": "dev"},
       "apiVersion": "2019-06-01",
       "name": "[concat(parameters('storageAccountName'), '/default')]",
       "dependsOn": [
@@ -110,6 +113,7 @@
     },
       {
         "type": "Microsoft.EventHub/namespaces",
+        "tags": {"cost-center": "dev"},
         "apiVersion": "2022-01-01-preview",
         "name": "[parameters('eventNsName')]",
         "location": "[variables('location')]",
@@ -130,6 +134,7 @@
     },
     {
         "type": "Microsoft.EventHub/namespaces/AuthorizationRules",
+        "tags": {"cost-center": "dev"},
         "apiVersion": "2022-01-01-preview",
         "name": "[concat(parameters('eventNsName'), '/RootManageSharedAccessKey')]",
         "location": "[variables('location')]",
@@ -146,6 +151,7 @@
     },
     {
         "type": "Microsoft.EventHub/namespaces/eventhubs",
+        "tags": {"cost-center": "dev"},
         "apiVersion": "2022-01-01-preview",
         "name": "[concat(parameters('eventNsName'), '/', parameters('eventHubName'))]",
         "location": "[variables('location')]",
@@ -160,6 +166,7 @@
     },
     {
         "type": "Microsoft.EventHub/namespaces/networkRuleSets",
+        "tags": {"cost-center": "dev"},
         "apiVersion": "2022-01-01-preview",
         "name": "[concat(parameters('eventNsName'), '/default')]",
         "location": "[variables('location')]",
@@ -175,6 +182,7 @@
     },
     {
         "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+        "tags": {"cost-center": "dev"},
         "apiVersion": "2022-01-01-preview",
         "name": "[concat(parameters('eventNsName'), '/', parameters('eventHubName'), '/$Default')]",
         "location": "[variables('location')]",
